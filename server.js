@@ -21,8 +21,8 @@ mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@cluster0.hqd5s4a.
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
-// const staticFilesPath = path.join('..', 'frontend', 'build');
-// app.use(express.static(staticFilesPath));
+const staticFilesPath = path.join('..', 'frontend', 'build');
+app.use(express.static(staticFilesPath));
 
 
 app.post('/api/register', async (req, res) => {
@@ -61,18 +61,15 @@ app.post('/api/login', async (req, res) => {
     const { rollNumber, password } = req.body;
 
     try {
-
         const student = await Student.findOne({ rollNumber });
         if (!student) {
             return res.status(401).json({ success: false, message: 'Invalid credentials' });
         }
 
-
-        const passwordMatch = await bcrypt.compare(password, student.password);
+        const passwordMatch = await argon2.verify(student.password, password);
         if (!passwordMatch) {
             return res.status(401).json({ success: false, message: 'Invalid credentials' });
         }
-
 
         const token = jwt.sign({ rollNumber: student.rollNumber }, secretKey, { expiresIn: '1h' });
 
@@ -81,6 +78,7 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 });
+
 
 app.post('/api/generateQR', async (req, res) => {
 
@@ -213,9 +211,9 @@ app.get('/api/clubRegistrationCount/:clubName', async (req, res) => {
 });
 
 
-// app.get('*', (req, res) => {
-//     res.sendFile('C:/Users/farha/OneDrive/Desktop/chec/frontend/build/index.html');
-// });
+app.get('*', (req, res) => {
+    res.sendFile('C:/Users/farha/OneDrive/Desktop/chec/frontend/build/index.html');
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
