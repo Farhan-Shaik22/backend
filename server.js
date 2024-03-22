@@ -8,6 +8,7 @@ const qr= require('qrcode');
 const Student = require('./models/Student');
 const Pass = require('./models/Pass');
 const getClubRegistrationCount = require('./getClubRegistrationCount'); 
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,10 +17,14 @@ const secretKey = 'secret';
 
 app.use(bodyParser.json());
 
+app.use(cors({
+    origin: '*'
+  }));
 
 mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@cluster0.hqd5s4a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
+
 
 const staticFilesPath = path.join('..', 'frontend', 'build');
 app.use(express.static(staticFilesPath));
