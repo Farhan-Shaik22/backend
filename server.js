@@ -39,13 +39,13 @@ app.post('/api/register', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Student already exists' });
         }
 
-
+        const rl = rollNumber.toLowerCase();
         const hashedPassword = await argon2.hash(password);
 
 
         const newStudent = new Student({
             name,
-            rollNumber,
+            rl,
             college,
             mobile,
             password: hashedPassword
@@ -176,7 +176,12 @@ app.get('/api/students/:rollNumber', async (req, res) => {
     }
 });
 
-
+class CustomError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = 'CustomError'; // Set the error name // Timestamp when the error occurred
+    }
+  }
 app.put('/api/students/:rollNumber', async (req, res) => {
     const { club, transactionId } = req.body;
     const { rollNumber } = req.params;
@@ -187,7 +192,11 @@ app.put('/api/students/:rollNumber', async (req, res) => {
         if (!student) {
             return res.status(404).json({ success: false, message: 'Student not found' });
         }
-
+        const count = await getClubRegistrationCount(clubName);
+        if(club==="riti" && count>=1 ){
+            CustomError('Registrations Count Reached');
+            
+        }
 
         student.clubs.push(club);
         student.transactionIds.push(transactionId);
