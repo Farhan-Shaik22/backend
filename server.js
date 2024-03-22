@@ -30,7 +30,7 @@ mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@cluster0.hqd5s4a.
 
 
 app.post('/api/register', async (req, res) => {
-    const { name, rollNumber, college, mobile, password } = req.body;
+    var { name, rollNumber, college, mobile, password } = req.body;
 
     try {
 
