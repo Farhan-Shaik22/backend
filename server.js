@@ -192,10 +192,10 @@ app.put('/api/students/:rollNumber', async (req, res) => {
         if (!student) {
             return res.status(404).json({ success: false, message: 'Student not found' });
         }
-        const count = await getClubRegistrationCount(clubName);
+        const count = await getClubRegistrationCount(club);
         if(club==="riti" && count>=1 ){
             CustomError('Registrations Count Reached');
-            
+
         }
 
         student.clubs.push(club);
