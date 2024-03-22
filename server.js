@@ -194,7 +194,7 @@ app.put('/api/students/:rollNumber', async (req, res) => {
         }
         const count = await getClubRegistrationCount(club);
         if(club==="Riti" && count>=1 ){
-            CustomError('Registrations Count Reached');
+            throw new CustomError('Registrations Count Reached');
 
         }
 
