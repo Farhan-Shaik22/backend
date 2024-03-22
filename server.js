@@ -39,13 +39,12 @@ app.post('/api/register', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Student already exists' });
         }
 
-        const rl = rollNumber.toLowerCase();
         const hashedPassword = await argon2.hash(password);
 
 
         const newStudent = new Student({
             name,
-            rl,
+            rollNumber,
             college,
             mobile,
             password: hashedPassword
