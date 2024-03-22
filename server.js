@@ -40,7 +40,7 @@ app.post('/api/register', async (req, res) => {
         }
 
         const hashedPassword = await argon2.hash(password);
-
+        rollNumber=rollNumber.toLowerCase();
 
         const newStudent = new Student({
             name,
