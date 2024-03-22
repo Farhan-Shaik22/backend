@@ -25,8 +25,8 @@ mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@cluster0.hqd5s4a.
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
-const staticFilesPath = path.join('..', 'frontend', 'build');
-app.use(express.static(staticFilesPath));
+// const staticFilesPath = path.join('..', 'frontend', 'build');
+// app.use(express.static(staticFilesPath));
 
 
 app.post('/api/register', async (req, res) => {
