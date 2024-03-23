@@ -85,8 +85,8 @@ app.post('/api/login', async (req, res) => {
 
 app.post('/api/generateQR', async (req, res) => {
 
-    const { rollNumber, year } = req.body;
-
+    var { rollNumber, year } = req.body;
+    rollNumber=rollNumber.toLowerCase();
     const qrData = `${rollNumber}`;
 
     try {
