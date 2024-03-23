@@ -175,12 +175,12 @@ app.get('/api/students/:rollNumber', async (req, res) => {
     }
 });
 
-class CustomError extends Error {
-    constructor(message) {
-      super(message);
-      this.name = 'CustomError'; // Set the error name // Timestamp when the error occurred
-    }
-  }
+// class CustomError extends Error {
+//     constructor(message) {
+//       super(message);
+//       this.name = 'CustomError'; // Set the error name // Timestamp when the error occurred
+//     }
+//   }
 app.put('/api/students/:rollNumber', async (req, res) => {
     const { club, transactionId } = req.body;
     const { rollNumber } = req.params;
@@ -191,11 +191,11 @@ app.put('/api/students/:rollNumber', async (req, res) => {
         if (!student) {
             return res.status(404).json({ success: false, message: 'Student not found' });
         }
-        const count = await getClubRegistrationCount(club);
-        if(club==="Riti" && count>=1 ){
-            throw new CustomError('Registrations Count Reached');
+        // const count = await getClubRegistrationCount(club);
+        // if(club==="Riti" && count>=1 ){
+        //     throw new CustomError('Registrations Count Reached');
 
-        }
+        // }
 
         student.clubs.push(club);
         student.transactionIds.push(transactionId);
