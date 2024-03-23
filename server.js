@@ -11,7 +11,7 @@ const getClubRegistrationCount = require('./getClubRegistrationCount');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const secretKey = 'fa7b20520f8922f6c1ce97fc';
 
 
@@ -87,7 +87,7 @@ app.post('/api/generateQR', async (req, res) => {
 
     const { rollNumber, year } = req.body;
 
-    const qrData = `${rollNumber}-${year}`;
+    const qrData = `${rollNumber}`;
 
     try {
 
@@ -99,7 +99,7 @@ app.post('/api/generateQR', async (req, res) => {
             year,
             entry: false
         });
-        await pass.save();
+        // await pass.save();
 
     
         res.json({ qrCodeUrl });
