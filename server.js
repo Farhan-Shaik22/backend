@@ -61,8 +61,8 @@ app.post('/api/register', async (req, res) => {
 
 
 app.post('/api/login', async (req, res) => {
-    const { rollNumber, password } = req.body;
-
+    var { rollNumber, password } = req.body;
+    rollNumber=rollNumber.toLowerCase();
     try {
         const student = await Student.findOne({ rollNumber });
         if (!student) {
