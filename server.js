@@ -12,7 +12,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const secretKey = 'secret';
+const secretKey = 'fa7b20520f8922f6c1ce97fc';
 
 
 app.use(bodyParser.json());
