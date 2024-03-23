@@ -179,7 +179,7 @@ app.get('/api/students/:rollNumber', async (req, res) => {
 //     constructor(message) {
 //       super(message);
 //       this.name = 'CustomError'; // Set the error name // Timestamp when the error occurred
-//     }3
+//     }
 //   }
 app.put('/api/students/:rollNumber', async (req, res) => {
     const { club, transactionId } = req.body;
