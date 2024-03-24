@@ -186,15 +186,20 @@ app.put('/api/students/:rollNumber', async (req, res) => {
     const { rollNumber } = req.params;
 
     try {
-
         const student = await Student.findOne({ rollNumber });
         if (!student) {
             return res.status(404).json({ success: false, message: 'Student not found' });
         }
+
+        // Check if transactionId is already used
+        const existingStudentWithTransactionId = await Student.findOne({ transactionIds: transactionId });
+        if (existingStudentWithTransactionId) {
+            return res.status(400).json({ success: false, message: 'Transaction ID already exists' });
+        }
+
         // const count = await getClubRegistrationCount(club);
         // if(club==="Riti" && count>=1 ){
         //     throw new CustomError('Registrations Count Reached');
-
         // }
 
         student.clubs.push(club);
@@ -207,6 +212,7 @@ app.put('/api/students/:rollNumber', async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 });
+
 // Assuming this is the path to your function
 
 // Route to get the registration count of a club
