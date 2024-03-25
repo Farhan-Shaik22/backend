@@ -18,8 +18,7 @@ const secretKey = 'fa7b20520f8922f6c1ce97fc';
 app.use(bodyParser.json());
 
 app.use(cors({
-    // origin: ['https://prkmit.in','https://nexus2024.netlify.app']
-    origin: '*'
+    origin: ['https://prkmit.in','https://nexus2024.netlify.app']
   }));
 
 mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@cluster0.hqd5s4a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
