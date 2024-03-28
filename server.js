@@ -253,20 +253,24 @@ app.post('/api/savePassData', async (req, res) => {
 
     try {
         const existingPass = await Pass.findOne({ rollNumber, year });
-        if(existingPass){
-            res.json({ success: true, message: 'Pass generated again' });
-        }
-        else{
-            const pass = new Pass({
-                rollNumber,
-                year,
-                number: Pass.countDocuments({ year })
-            });
-            await pass.save();
-            res.json({ success: true, message: 'Pass data saved successfully' });
+        if (existingPass) {
+            return res.json({ success: true, message: 'Pass already generated' });
         }
 
-        
+        // Get the count of existing passes for the given year
+        const passCount = await Pass.countDocuments({ year });
+
+        // Create a new pass with the incremented pass number
+        const pass = new Pass({
+            rollNumber,
+            year,
+            number: passCount + 1 // Increment the pass number
+        });
+
+        // Save the new pass
+        await pass.save();
+
+        res.json({ success: true, message: 'Pass data saved successfully' });
     } catch (error) {
         console.error('Error saving pass data:', error);
         res.status(500).json({ success: false, message: 'Error saving pass data' });
