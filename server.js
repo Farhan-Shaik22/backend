@@ -253,9 +253,9 @@ app.post('/api/savePassData', async (req, res) => {
 
 
     try {
-        const existingPass=await Pass.findOne({ rollNumber});
+        const existingPass=await Pass.findOne({rollNumber});
         if(existingPass){
-
+            
         }
 
         // Create a new pass with the incremented pass number
