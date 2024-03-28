@@ -230,7 +230,7 @@ app.put('/api/students/:rollNumber', async (req, res) => {
     }
 });
 app.get('/api/passCount', async (req, res) => {
-    const { year } = req.query;
+    const { year ,rollNumber} = req.query;
 
     try {
         const existingPass = await Pass.findOne({ rollNumber, year });
@@ -255,7 +255,7 @@ app.post('/api/savePassData', async (req, res) => {
     try {
         const existingPass=await Pass.findOne({rollNumber});
         if(existingPass){
-            
+
         }
 
         // Create a new pass with the incremented pass number
