@@ -11,7 +11,7 @@ const passSchema = new mongoose.Schema({
         required: true
     },
     num: {
-        type: number,
+        type: Number,
         required: true
     }
 });
