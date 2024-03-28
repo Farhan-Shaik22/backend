@@ -237,10 +237,11 @@ app.get('/api/passCount', async (req, res) => {
         if(existingPass){
             const n= existingPass.num;
             res.json({ success: true, n});
+            console.log(n);
         }
         else{
             const passCount = await Pass.countDocuments({ year });
-
+            console.log(passCount);
             res.json({ success: true, passCount });
         }
     } catch (error) {
@@ -253,7 +254,7 @@ app.post('/api/savePassData', async (req, res) => {
 
 
     try {
-        const existingPass=await Pass.findOne({rollNumber});
+        const existingPass=await Pass.findOne({rollNumber,year});
         if(existingPass){
 
         }
@@ -263,7 +264,7 @@ app.post('/api/savePassData', async (req, res) => {
         const pass = new Pass({
                 rollNumber,
                 year,
-                num: passCount // Increment the pass number
+                num: passCount+1 // Increment the pass number
             });
 
             // Save the new pass
