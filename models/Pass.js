@@ -10,9 +10,9 @@ const passSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    entry: {
-        type: Boolean,
-        default: false
+    num: {
+        type: number,
+        required: true
     }
 });
 

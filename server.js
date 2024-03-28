@@ -233,10 +233,16 @@ app.get('/api/passCount', async (req, res) => {
     const { year } = req.query;
 
     try {
-        // Query the Pass collection to count the passes for the given year
-        const passCount = await Pass.countDocuments({ year });
+        const existingPass = await Pass.findOne({ rollNumber, year });
+        if(existingPass){
+            const n= existingPass.num;
+            res.json({ success: true, n});
+        }
+        else{
+            const passCount = await Pass.countDocuments({ year });
 
-        res.json({ success: true, passCount });
+            res.json({ success: true, passCount });
+        }
     } catch (error) {
         console.error('Error fetching pass count:', error);
         res.status(500).json({ success: false, message: 'Error fetching pass count' });
@@ -246,15 +252,21 @@ app.post('/api/savePassData', async (req, res) => {
     const { rollNumber, year } = req.body;
 
     try {
-        // Create a new Pass document and save it to the database
-        const pass = new Pass({
-            rollNumber,
-            year,
-            entry: false
-        });
-        await pass.save();
+        const existingPass = await Pass.findOne({ rollNumber, year });
+        if(existingPass){
+            res.json({ success: true, message: 'Pass generated again' });
+        }
+        else{
+            const pass = new Pass({
+                rollNumber,
+                year,
+                number: Pass.countDocuments({ year })
+            });
+            await pass.save();
+            res.json({ success: true, message: 'Pass data saved successfully' });
+        }
 
-        res.json({ success: true, message: 'Pass data saved successfully' });
+        
     } catch (error) {
         console.error('Error saving pass data:', error);
         res.status(500).json({ success: false, message: 'Error saving pass data' });
