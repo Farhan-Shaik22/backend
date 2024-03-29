@@ -248,25 +248,23 @@ app.get('/api/passCount', async (req, res) => {
     }
 });
 app.post('/api/savePassData', async (req, res) => {
-    var { rollNumber, year , latestPassCount} = req.body;
-    latestPassCount=latestPassCount+1
+    const { rollNumber, year, passCount } = req.body;
+    const latestPassCount = passCount + 1;
 
     try {
-        const existingPass=await Pass.findOne({rollNumber,year});
-        if(existingPass){
-
-        }
-
-        // Create a new pass with the incremented pass number
-    else{    
-        const pass = new Pass({
+        const existingPass = await Pass.findOne({ rollNumber, year });
+        if (existingPass) {
+            // Handle existing pass if needed
+        } else {
+            const pass = new Pass({
                 rollNumber,
                 year,
-                latestPassCount // Increment the pass number
+                num: latestPassCount // Increment the pass number
             });
 
             // Save the new pass
-        await pass.save();}
+            await pass.save();
+        }
 
         res.json({ success: true, message: 'Pass data saved successfully' });
     } catch (error) {
