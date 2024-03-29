@@ -18,7 +18,7 @@ const secretKey = 'fa7b20520f8922f6c1ce97fc';
 app.use(bodyParser.json());
 
 app.use(cors({
-    origin: '*'
+    origin: ['https://prkmit.in','https://nexus2024.netlify.app']
   }));
 
 mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@cluster0.hqd5s4a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -58,23 +58,6 @@ app.post('/api/register', async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 });
-
-app.delete('/api/deleteStudentsWithMoreThanFourAs', async (req, res) => {
-    try {
-        const studentsWithMoreThanFourAs = await Student.find({
-            name: { $regex: /a.*a.*a.*a.*a/, $options: 'i' }
-        });
-
-        const deletionResult = await Student.deleteMany({
-            name: { $regex: /a.*a.*a.*a.*a/, $options: 'i' }
-        });
-
-        res.json({ success: true, deletedCount: deletionResult.deletedCount });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-});
-
 
 
 app.post('/api/login', async (req, res) => {
@@ -227,49 +210,6 @@ app.put('/api/students/:rollNumber', async (req, res) => {
         res.json({ success: true, student });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
-    }
-});
-app.get('/api/passCount', async (req, res) => {
-    const { year ,rollNumber} = req.query;
-    var passCount=0
-    try {
-        const existingPass = await Pass.findOne({ rollNumber, year });
-        if(existingPass){
-            passCount= existingPass.num;
-        }
-        else{
-            passCount = await Pass.countDocuments({ year });
-        }
-        console.log(passCount);
-        res.json({ success: true, passCount });
-    } catch (error) {
-        console.error('Error fetching pass count:', error);
-        res.status(500).json({ success: false, message: 'Error fetching pass count' });
-    }
-});
-app.post('/api/savePassData', async (req, res) => {
-    const { rollNumber, year, passCount } = req.body;
-    const latestPassCount = passCount + 1;
-
-    try {
-        const existingPass = await Pass.findOne({ rollNumber, year });
-        if (existingPass) {
-            // Handle existing pass if needed
-        } else {
-            const pass = new Pass({
-                rollNumber,
-                year,
-                num: latestPassCount // Increment the pass number
-            });
-
-            // Save the new pass
-            await pass.save();
-        }
-
-        res.json({ success: true, message: 'Pass data saved successfully' });
-    } catch (error) {
-        console.error('Error saving pass data:', error);
-        res.status(500).json({ success: false, message: 'Error saving pass data' });
     }
 });
 
