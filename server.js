@@ -248,8 +248,8 @@ app.get('/api/passCount', async (req, res) => {
     }
 });
 app.post('/api/savePassData', async (req, res) => {
-    var { rollNumber, year , passCount} = req.body;
-    passCount=passCount+1
+    var { rollNumber, year , latestPassCount} = req.body;
+    latestPassCount=latestPassCount+1
 
     try {
         const existingPass=await Pass.findOne({rollNumber,year});
@@ -262,7 +262,7 @@ app.post('/api/savePassData', async (req, res) => {
         const pass = new Pass({
                 rollNumber,
                 year,
-                passCount // Increment the pass number
+                latestPassCount // Increment the pass number
             });
 
             // Save the new pass
