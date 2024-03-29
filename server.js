@@ -231,19 +231,17 @@ app.put('/api/students/:rollNumber', async (req, res) => {
 });
 app.get('/api/passCount', async (req, res) => {
     const { year ,rollNumber} = req.query;
-
+    var passCount=0
     try {
         const existingPass = await Pass.findOne({ rollNumber, year });
         if(existingPass){
-            const n= existingPass.num;
-            res.json({ success: true, n});
-            console.log(n);
+            passCount= existingPass.num;
         }
         else{
-            const passCount = await Pass.countDocuments({ year });
-            console.log(passCount);
-            res.json({ success: true, passCount });
+            passCount = await Pass.countDocuments({ year });
         }
+        console.log(passCount);
+        res.json({ success: true, passCount });
     } catch (error) {
         console.error('Error fetching pass count:', error);
         res.status(500).json({ success: false, message: 'Error fetching pass count' });
