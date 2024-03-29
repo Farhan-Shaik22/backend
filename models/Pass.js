@@ -4,16 +4,13 @@ const mongoose = require('mongoose');
 const passSchema = new mongoose.Schema({
     rollNumber: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     year: {
         type: String,
         required: true
     },
-    num: {
-        type: Number,
-        required: true
-    }
 });
 
 
