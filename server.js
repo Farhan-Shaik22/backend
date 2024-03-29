@@ -128,6 +128,52 @@ app.get('/api/clubs/:rollNumber', async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 });
+app.get('/api/checkRollNumber', async (req, res) => {
+    const { rollNumber } = req.query;
+
+    try {
+        const existingPass = await Pass.findOne({ rollNumber });
+        res.json({ exists: !!existingPass });
+    } catch (error) {
+        console.error('Error checking roll number:', error);
+        res.status(500).json({ success: false, message: 'Error checking roll number' });
+    }
+});
+
+// Endpoint to check if the year matches the chosen year for a roll number
+app.get('/api/checkYear', async (req, res) => {
+    const { rollNumber, year } = req.query;
+
+    try {
+        const existingPass = await Pass.findOne({ rollNumber, year });
+        res.json({ yearMatches: !!existingPass });
+    } catch (error) {
+        console.error('Error checking year:', error);
+        res.status(500).json({ success: false, message: 'Error checking year' });
+    }
+});
+
+// Endpoint to save the roll number and year
+app.post('/api/savePassData', async (req, res) => {
+    const { rollNumber, year } = req.body;
+
+    try {
+        const existingPass = await Pass.findOne({ rollNumber, year });
+        if (existingPass) {
+            res.json({ success: true, message: 'Pass data already exists' });
+        } else {
+            const pass = new Pass({
+                rollNumber,
+                year
+            });
+            await pass.save();
+            res.json({ success: true, message: 'Pass data saved successfully' });
+        }
+    } catch (error) {
+        console.error('Error saving pass data:', error);
+        res.status(500).json({ success: false, message: 'Error saving pass data' });
+    }
+});
 
 app.put('/api/clubs/:rollNumber/:club', async (req, res) => {
     const { rollNumber, club } = req.params;
