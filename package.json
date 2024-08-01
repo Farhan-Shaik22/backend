@@ -18,6 +18,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.2",
     "nodemon": "^3.1.0",
-    "qrcode": "^1.5.3"
+    "qrcode": "^1.5.3",
+    "vercel": "^35.2.2"
   }
 }
