@@ -4,24 +4,24 @@ const getClubRegistrationCount = async (clubName) => {
     try {
         const clubRegistrationCount = await Student.aggregate([
             {
-                $match: { clubs: clubName } // Filter students who are registered for the given club
+                $match: { clubs: clubName } 
             },
             {
                 $group: {
                     _id: null,
-                    count: { $sum: 1 } // Count the number of students in the group
+                    count: { $sum: 1 } 
                 }
             }
         ]);
 
         if (clubRegistrationCount.length > 0) {
-            return clubRegistrationCount[0].count; // Return the count of registered students for the club
+            return clubRegistrationCount[0].count;
         } else {
-            return 0; // Return 0 if no students are registered for the club
+            return 0;
         }
     } catch (error) {
         console.error('Error getting club registration count:', error);
-        throw error; // Throw the error for handling in the caller function
+        throw error; 
     }
 };
 
