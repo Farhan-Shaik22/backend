@@ -1,4 +1,4 @@
-const Student = require('./models/Student'); // Assuming this is the path to your Student model
+const Student = require('./models/Student'); 
 
 const getClubRegistrationCount = async (clubName) => {
     try {
