@@ -113,14 +113,13 @@ app.get('/api/clubs/:rollNumber', async (req, res) => {
     const { rollNumber } = req.params;
 
     try {
-        // Find the student by roll number
+        
         const student = await Student.findOne({ rollNumber });
 
         if (!student) {
             return res.status(404).json({ success: false, message: 'Student not found' });
         }
 
-        // Extract clubs and part arrays from the student
         const { clubs, part } = student;
 
         res.json({ success: true, clubs, part });
@@ -140,7 +139,6 @@ app.get('/api/checkRollNumber', async (req, res) => {
     }
 });
 
-// Endpoint to check if the year matches the chosen year for a roll number
 app.get('/api/checkYear', async (req, res) => {
     const { rollNumber, year } = req.query;
 
@@ -153,7 +151,6 @@ app.get('/api/checkYear', async (req, res) => {
     }
 });
 
-// Endpoint to save the roll number and year
 app.post('/api/savePassData', async (req, res) => {
     const { rollNumber, year } = req.body;
 
@@ -180,23 +177,21 @@ app.put('/api/clubs/:rollNumber/:club', async (req, res) => {
     const { part } = req.body;
 
     try {
-        // Find the student by roll number
+
         const student = await Student.findOne({ rollNumber });
 
         if (!student) {
             return res.status(404).json({ success: false, message: 'Student not found' });
         }
 
-        // Find the index of the club in the clubs array
         const clubIndex = student.clubs.indexOf(club);
         if (clubIndex === -1) {
             return res.status(404).json({ success: false, message: 'Club not found for the student' });
         }
 
-        // Update the part value of the club
         student.part[clubIndex] = part;
 
-        // Save the updated student document
+
         await student.save();
 
         res.json({ success: true, message: 'Club part value updated successfully' });
@@ -208,7 +203,7 @@ app.get('/api/students/:rollNumber', async (req, res) => {
     const { rollNumber } = req.params;
 
     try {
-        // Find the student by roll number
+
         const student = await Student.findOne({ rollNumber });
 
         if (student) {
@@ -259,9 +254,7 @@ app.put('/api/students/:rollNumber', async (req, res) => {
     }
 });
 
-// Assuming this is the path to your function
 
-// Route to get the registration count of a club
 app.get('/api/clubRegistrationCount/:clubName', async (req, res) => {
     const { clubName } = req.params;
 
