@@ -18,7 +18,8 @@ const secretKey = 'fa7b20520f8922f6c1ce97fc';
 app.use(bodyParser.json());
 
 app.use(cors({
-       origin: ['https://prkmit.in','https://nexus2024.netlify.app']
+    //    origin: ['https://prkmit.in','https://nexus2024.netlify.app']
+    origin: '*',
   }));
 
 mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@cluster0.hqd5s4a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -58,7 +59,42 @@ app.post('/api/register', async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 });
+app.post('/api/verify', async (req, res) => {
+    const { rollNumber } = req.body;
+  
+    try {
+      const user = await Student.findOne({ rollNumber });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Return the value of the 'monster' field
+      return res.json({ monster: user.monster });
+    } catch (error) {
+      return res.status(500).json({ error: error });
+    }
+  });
 
+  // API to update the 'monster' field of a user to true
+app.post('/api/update', async (req, res) => {
+    const { rollNumber } = req.body;
+  
+    try {
+      const user = await Student.findOne({ rollNumber });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Update the 'monster' field to true
+      user.monster = true;
+      await user.save();
+  
+      return res.json({ success: true, message: "'monster' field updated" });
+    } catch (error) {
+      return res.status(500).json({ error: 'Server error' });
+    }
+  });
+  
 
 app.post('/api/login', async (req, res) => {
     var { rollNumber, password } = req.body;
