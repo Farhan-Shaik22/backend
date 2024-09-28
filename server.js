@@ -94,6 +94,37 @@ app.post('/api/update', async (req, res) => {
       return res.status(500).json({ error: 'Server error' });
     }
   });
+
+  app.post('/api/decrypt', (req, res) => {
+    const { encryptedData } = req.body;
+  
+    if (!encryptedData) {
+      return res.status(400).json({ error: 'Missing encryptedData' });
+    }
+  
+    try {
+      // Split the encrypted data into IV and the encrypted string
+      const parts = encryptedData.split(':');
+      const iv = Buffer.from(parts[0], 'hex'); // Initialization vector
+      const encryptedText = parts[1]; // Encrypted data
+  
+      // Create the decipher object
+      const decipher = crypto.createDecipheriv(
+        'aes-256-cbc',
+        Buffer.from(encryptionKey, 'utf8'), 
+        iv
+      );
+  
+      // Decrypt the data
+      let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+      decrypted += decipher.final('utf8');
+  
+      return res.json({ decrypted });
+    } catch (error) {
+      console.error('Decryption failed:', error);
+      return res.status(500).json({ error: 'Decryption failed' });
+    }
+  });
   
 
 app.post('/api/login', async (req, res) => {
