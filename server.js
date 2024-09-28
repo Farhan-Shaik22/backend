@@ -9,6 +9,7 @@ const Student = require('./models/Student');
 const Pass = require('./models/Pass');
 const getClubRegistrationCount = require('./getClubRegistrationCount'); 
 const cors = require('cors');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -107,7 +108,7 @@ app.post('/api/update', async (req, res) => {
       const parts = encryptedData.split(':');
       const iv = Buffer.from(parts[0], 'hex'); // Initialization vector
       const encryptedText = parts[1]; // Encrypted data
-  
+      const encryptionKey='iamgodandiwillbeiamgodandiwillbe';
       // Create the decipher object
       const decipher = crypto.createDecipheriv(
         'aes-256-cbc',
@@ -118,6 +119,7 @@ app.post('/api/update', async (req, res) => {
       // Decrypt the data
       let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
       decrypted += decipher.final('utf8');
+      console.log(decrypted);
   
       return res.json({ decrypted });
     } catch (error) {
