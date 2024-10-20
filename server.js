@@ -23,7 +23,7 @@ app.use(cors({
     origin: '*',
   }));
 
-mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@cluster0.hqd5s4a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@devtesting.hu6xu.mongodb.net/?retryWrites=true&w=majority&appName=DevTesting', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
