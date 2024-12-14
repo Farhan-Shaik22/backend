@@ -10,7 +10,8 @@ const Pass = require('./models/Pass');
 const getClubRegistrationCount = require('./getClubRegistrationCount'); 
 const cors = require('cors');
 const crypto = require('crypto');
-
+const dotenv= require('dotenv');
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 const secretKey = 'fa7b20520f8922f6c1ce97fc';
@@ -23,7 +24,7 @@ app.use(cors({
     origin: '*',
   }));
 
-mongoose.connect('mongodb+srv://farhan2262003:we9jNupRKBPAVgb9@devtesting.hu6xu.mongodb.net/?retryWrites=true&w=majority&appName=DevTesting', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
