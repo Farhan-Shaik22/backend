@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
 app.use(cors({
     //    origin: ['https://prkmit.in','https://nexus2024.netlify.app']
-    origin: '*',
+    origin: 'https://nexus2024.netlify.app',
   }));
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
